@@ -27,6 +27,7 @@ RSpec.describe PlayersController, type: :controller do
     {
       :player_id => 1234,
       :sport => 'Baseball',
+      :first_name => '',
       :last_name => 'Smith'
     }
   }
