@@ -4,7 +4,22 @@ class PlayersController < ApplicationController
   # GET /players
   # GET /players.json
   def index
-    @players = Player.all
+    # determine if we have any player parameters to search for
+    # first figure out what attributes are valid
+    player_attributes = Player.columns.collect { |c| c.name }
+    # iterate through params and add the ones which match up with player attributes
+    query_params = {}
+    params.each do |k,v| 
+      query_params[k] = v if player_attributes.include? k
+    end
+    
+    # if we're not searching for a player, return all players
+    if query_params.empty?
+      @players = Player.all
+    else
+      # search for specific players
+      @players = Player.where query_params
+    end
   end
 
   # GET /players/1
@@ -71,4 +86,5 @@ class PlayersController < ApplicationController
     def player_params
       params.require(:player).permit(:player_id, :sport, :first_name, :last_name, :position, :age)
     end
+
 end
