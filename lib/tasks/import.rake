@@ -38,6 +38,9 @@ namespace :data do
           :position => player['position'],
           :age => player['age']
         }
+        # Disregard age if it isn't realistic
+        player_params[:age] = nil if player_params[:age] > 100 if player_params[:age]
+        
         # Check that the new player is valid
         new_player = Player.new player_params
         unless new_player.valid?
