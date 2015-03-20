@@ -10,15 +10,6 @@ class PlayersController < ApplicationController
   # GET /players/1
   # GET /players/1.json
   def show
-    @name_brief = case @player.sport
-            when /basketball/i
-              "#{@player.first_name} #{@player.last_name.first}."
-            when /baseball/i
-              "#{@player.first_name.first}. #{@player.last_name.first}."
-            when /football/i
-              "#{@player.first_name.first}. #{@player.last_name}"
-            end
-    @age_diff = 'TODO: implement me'
   end
 
   # GET /players/new
