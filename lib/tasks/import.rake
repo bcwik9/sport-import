@@ -51,7 +51,7 @@ namespace :data do
           when /football/i
             "#{player_params[:first_name].first}. #{player_params[:last_name]}"
           end
-        
+
         # Check that the new player is valid
         new_player = Player.new player_params
         unless new_player.valid?
@@ -75,6 +75,13 @@ namespace :data do
       average_ages.each do |position, ages|
         average_age = ages.sum.to_f / ages.size
         AverageAge.create!(:sport => sport, :position => position, :age => average_age)
+      end
+      
+      # Also store average ages in in player model so we dont have to do an additional fetch
+      players_store.each do |player|
+        unless player[:age].nil?
+          player[:age_diff] = player[:age] - AverageAge.where(:position => player.position, :sport => player.sport).first.age
+        end
       end
 
       # Now commit all players to the database

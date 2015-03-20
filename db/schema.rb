@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150320062411) do
+ActiveRecord::Schema.define(version: 20150320073440) do
 
   create_table "average_ages", force: :cascade do |t|
     t.string   "sport"
@@ -31,6 +31,7 @@ ActiveRecord::Schema.define(version: 20150320062411) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string   "name_brief"
+    t.integer  "age_diff"
   end
 
 end
