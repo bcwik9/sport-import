@@ -14,8 +14,11 @@ namespace :data do
     
     # Import data for each sport
     SPORTS.each do |sport|
-      # store players so we can commit them all at once quickly
+      # Store players so we can commit them all at once quickly
       players_store = []
+
+      # Store players ages per position
+      average_ages = {}
       
       # Add necessary params to URI, including specific sport
       uri.query = URI.encode_www_form({
@@ -44,10 +47,22 @@ namespace :data do
           raise 'Encountered invalid player. Check log for more info'
         end
 
+        # Add age to our average ages
+        if new_player.age and new_player.position
+          average_ages[new_player.position] ||= []
+          average_ages[new_player.position].push new_player.age
+        end
+
         # Add player to our temporary store
         players_store.push new_player
       end
-      
+
+      # Commit average ages
+      average_ages.each do |position, ages|
+        average_age = ages.sum.to_f / ages.size
+        AverageAge.create!(:sport => sport, :position => position, :age => average_age)
+      end
+
       # Now commit all players to the database
       Player.import players_store
       puts "Imported #{players_store.size} #{sport} players!"
