@@ -16,18 +16,26 @@ class PlayersController < ApplicationController
     # Map id to player_id since we don't really care about the actual
     # id assigned to the record by rails
     id = query_params.delete 'id'
-    query_params[:player_id] = id unless query_params.has_key? 'player_id' or id.nil?
+    query_params['player_id'] = id unless query_params.has_key? 'player_id' or id.nil?
 
     # Map average_position_age_diff to age_diff
     age_diff = params.delete 'average_position_age_diff'
-    query_params[:age_diff] = age_diff unless query_params.has_key? 'age_diff' or age_diff.nil?
+    query_params['age_diff'] = age_diff unless query_params.has_key? 'age_diff' or age_diff.nil?
     
     # if we're not searching for a player, return all players
     if query_params.empty?
       @players = Player.all
     else
-      # search for specific players
-      @players = Player.where query_params
+      # search for specific players, but be case insensitive
+      # might be a more efficient way to do this
+      query_params.each do |k,v|
+        where_params = ["lower(#{k}) = ? ", v.downcase]
+        if @players.nil?
+          @players = Player.where(*where_params)
+        else
+          @players = @players.where(*where_params)
+        end
+      end
     end
   end
 
