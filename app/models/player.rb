@@ -1,5 +1,5 @@
 class Player < ActiveRecord::Base
-  validates_presence_of :player_id, :sport, :first_name, :last_name
+  validates_presence_of :player_id, :sport, :last_name
 
   def name_brief
     case sport
