@@ -13,14 +13,6 @@
 
 ActiveRecord::Schema.define(version: 20150320073440) do
 
-  create_table "average_ages", force: :cascade do |t|
-    t.string   "sport"
-    t.string   "position"
-    t.integer  "age"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "players", force: :cascade do |t|
     t.integer  "player_id"
     t.string   "sport"

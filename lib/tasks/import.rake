@@ -71,16 +71,16 @@ namespace :data do
         players_store.push new_player
       end
 
-      # Commit average ages
+      # Calculate average ages
       average_ages.each do |position, ages|
-        average_age = ages.sum.to_f / ages.size
-        AverageAge.create!(:sport => sport, :position => position, :age => average_age)
+        average_age = ages.sum / ages.size
+        average_ages[position] = average_age
       end
       
-      # Also store average ages in in player model so we dont have to do an additional fetch
+      # Store average ages in in player model so we dont have to do an additional fetch
       players_store.each do |player|
         unless player[:age].nil?
-          player[:age_diff] = player[:age] - AverageAge.where(:position => player.position, :sport => player.sport).first.age
+          player[:age_diff] = player[:age] - average_ages[player[:position]]
         end
       end
 
