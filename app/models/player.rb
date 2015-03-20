@@ -1,17 +1,8 @@
 class Player < ActiveRecord::Base
   validates_presence_of :player_id, :sport, :last_name
 
-  def name_brief
-    case sport
-    when /basketball/i
-      "#{first_name} #{last_name.first}."
-    when /baseball/i
-      "#{first_name.first}. #{last_name.first}."
-    when /football/i
-      "#{first_name.first}. #{last_name}"
-    end
-  end
-
+  # query the AverageAge table to calcullate the age difference between
+  # the player and the average age for the player's position
   def age_diff
     if age
       average_age = AverageAge.where(:sport => sport, :position => position)
