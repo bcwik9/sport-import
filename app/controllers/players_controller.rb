@@ -12,6 +12,12 @@ class PlayersController < ApplicationController
     params.each do |k,v| 
       query_params[k] = v if player_attributes.include? k
     end
+
+    # Map ID to player_id
+    id = query_params.delete 'id'
+    unless query_params.has_key? 'player_id'
+      query_params[:player_id] = id
+    end
     
     # if we're not searching for a player, return all players
     if query_params.empty?
