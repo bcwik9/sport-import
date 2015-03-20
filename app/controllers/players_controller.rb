@@ -13,11 +13,14 @@ class PlayersController < ApplicationController
       query_params[k] = v if player_attributes.include? k
     end
 
-    # Map ID to player_id
+    # Map id to player_id since we don't really care about the actual
+    # id assigned to the record by rails
     id = query_params.delete 'id'
-    unless query_params.has_key? 'player_id'
-      query_params[:player_id] = id
-    end
+    query_params[:player_id] = id unless query_params.has_key? 'player_id'
+
+    # Map average_position_age_diff to age_diff
+    age_diff = params.delete 'average_position_age_diff'
+    query_params[:age_diff] = age_diff unless query_params.has_key? 'age_diff'
     
     # if we're not searching for a player, return all players
     if query_params.empty?
