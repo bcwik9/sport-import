@@ -13,6 +13,11 @@ class Player < ActiveRecord::Base
   end
 
   def age_diff
-    'TODO: implement me'
+    if age
+      average_age = AverageAge.where(:sport => sport, :position => position)
+      age - average_age.first.age
+    else
+      nil
+    end
   end
 end
