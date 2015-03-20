@@ -1,5 +1,6 @@
 class PlayersController < ApplicationController
   before_action :set_player, only: [:show, :edit, :update, :destroy]
+  before_action :set_default_response_format
 
   # GET /players
   # GET /players.json
@@ -91,6 +92,12 @@ class PlayersController < ApplicationController
       format.html { redirect_to players_url, notice: 'Player was successfully destroyed.' }
       format.json { head :no_content }
     end
+  end
+
+  protected
+
+  def set_default_response_format
+    request.format = :json unless params[:format]
   end
 
   private
