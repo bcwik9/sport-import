@@ -22,8 +22,22 @@ RSpec.describe "players/index", type: :view do
     ])
   end
 
-  it "renders a list of players" do
+  it "renders a list of players as json" do
     render
-    raise 'implement'
+    json_response = JSON.parse(response)
+
+    expected_response = {
+      :id => 1,
+      :first_name => "First Name",
+      :last_name => "Last Name",
+      :position => "Position",
+      :age => 2
+    }
+    
+    expect(json_response.size).to eq 2
+    expect(json_response.first).to eq json_response.last
+    expected_response.each do |k,v|
+      expect(json_response.first[k.to_s]).to eq v
+    end
   end
 end

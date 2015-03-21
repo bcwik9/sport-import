@@ -12,13 +12,20 @@ RSpec.describe "players/show", type: :view do
     ))
   end
 
-  it "renders attributes in <p>" do
+  it "renders attributes as json" do
     render
-    expect(rendered).to match(/1/)
-    expect(rendered).to match(/Sport/)
-    expect(rendered).to match(/First Name/)
-    expect(rendered).to match(/Last Name/)
-    expect(rendered).to match(/Position/)
-    expect(rendered).to match(/2/)
+    json = JSON.parse rendered
+
+    expected_response = {
+      :id => 1,
+      :first_name => "First Name",
+      :last_name => "Last Name",
+      :position => "Position",
+      :age => 2
+    }
+    
+    expected_response.each do |k,v|
+      expect(json[k.to_s]).to eq v
+    end
   end
 end
