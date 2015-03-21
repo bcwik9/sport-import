@@ -10,12 +10,15 @@ This is a typical Rails project, so clone this repo and run:
 This will set up the project and add data to the database. Run the server using:
 * bundle exec rails server
 
+Run RSPEC tests via:
+* rspec
+
 ## Usage
 This is a JSON service, so you can request all data as JSON by visiting:
-* localhost/players?format=json
+* localhost/
 
 You can search players using typical URL params, such as requesting all football quarterbacks:
-* localhost/players?format=json&sport=football&position=qb
+* localhost/?sport=football&position=qb
 
 ## Design Plan
 
@@ -24,7 +27,7 @@ You can search players using typical URL params, such as requesting all football
 * Set up basic RSPEC tests
 
 ### Data Import
-* get /import
+* rake data:import
 * add fields to Player models
 
 ### JSON endpoint
